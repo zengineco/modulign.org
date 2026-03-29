@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+    WORKFLOW STACK
+    File:       modulign_v1.0.0.html
+    Brand:      Modulign™
+    Author:     © 2026 Vincent Gonzalez · modulign.org
+    Version:    v1.0.0
+    Date:       2026-03-29
+    Target:     Desktop-primary, mobile responsive
+    Browser:    Chrome 100+, Firefox 100+, Safari 15+
+
+    BOOT ORDER:
+      1. CSS variables + reset
+      2. Font imports
+      3. DOM: #top-nav | #main-content sections
+      4. JS: nav scroll spy, section reveal, smooth scroll,
+             code copy buttons, mobile nav toggle
+
+    SECTION MAP:
+      ~L1   : head / meta / fonts
+      ~L80  : CSS variables + reset
+      ~L160 : nav styles
+      ~L220 : hero styles
+      ~L310 : section base styles
+      ~L370 : spec / table styles
+      ~L480 : code block styles
+      ~L520 : gettier / callout styles
+      ~L580 : changelog styles
+      ~L620 : footer styles
+      ~L660 : HTML body start
+      ~L700 : nav HTML
+      ~L740 : hero section
+      ~L800 : overview section
+      ~L860 : spec section
+      ~L1100: examples section
+      ~L1180: gettier section
+      ~L1280: changelog section
+      ~L1340: contact section
+      ~L1380: footer
+      ~L1400: JS
+
+    EXTERNAL DEPENDENCIES:
+      - Google Fonts: Cormorant Garamond, JetBrains Mono, Inter
+      - No AdSense (scholarship site)
+      - Logo: /assets/modulign-logo.png (user-supplied)
+
+    ASSET MANIFEST:
+      /assets/modulign-logo.png — MN wave logo (user supplies)
+      /assets/00-modulign.png   — hero section image (shared with zengine)
+  ========================================================= -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Modulign — A Dimensional Address Grammar for Observable Reality. DAG-OR v3.0 full specification, Gettier analysis, and legal epistemology treatise." />
+  <meta name="theme-color" content="#1a1a18" />
+  <title>Modulign — Rebranding Knowledge</title>
+  <link rel="canonical" href="https://modulign.org/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      /* Dark hero palette — charcoal + gold from logo */
+      --hero-bg:      #1a1a18;
+      --hero-bg2:     #222220;
+      --gold:         #c8a45a;
+      --gold-light:   #d4b472;
+      --gold-dim:     rgba(200,164,90,0.15);
+      --gold-glow:    rgba(200,164,90,0.08);
+      --navy:         #2a3550;
+      --navy-light:   #3a4a6a;
+
+      /* Light body palette */
+      --bg:           #f8f6f1;
+      --bg2:          #f0ede6;
+      --bg3:          #e8e4db;
+      --surface:      #ffffff;
+      --border:       #ddd9d0;
+      --border2:      #c8c4bb;
+
+      /* Text */
+      --ink:          #1a1a18;
+      --ink2:         #3a3a36;
+      --ink3:         #6a6a64;
+      --ink4:         #9a9a94;
+
+      /* Accent on light */
+      --accent:       #8a6e2e;
+      --accent-light: #b89050;
+
+      /* Code blocks */
+      --code-bg:      #1e1e1c;
+      --code-text:    #e8e4d8;
+      --code-accent:  #c8a45a;
+      --code-blue:    #7cb8e8;
+      --code-green:   #8cc87c;
+
+      --font-serif:   'Cormorant Garamond', Georgia, serif;
+      --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+      --font-sans:    'Inter', system-ui, sans-serif;
+
+      --nav-h:        60px;
+      --content-w:    820px;
+      --wide-w:       1080px;
+      --ease:         cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 17px; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; }
+
+    /* ===== TOP NAV ===== */
+    #top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      background: rgba(26,26,24,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,164,90,0.15);
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+      gap: 0;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+      margin-right: auto;
+    }
+    .nav-logo img {
+      height: 32px;
+      width: auto;
+    }
+    .nav-logo-text {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f0ede6;
+    }
+    .nav-logo-text span {
+      color: var(--gold);
+    }
+    .nav-logo-sub {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,164,90,0.55);
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+    .nav-links li a {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.55);
+      padding: 8px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: var(--gold-light);
+      background: var(--gold-glow);
+    }
+
+    .nav-version {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: rgba(200,164,90,0.4);
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid rgba(200,164,90,0.15);
+    }
+
+    /* Mobile nav toggle */
+    #nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    #nav-toggle span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--gold-light);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      background: var(--hero-bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: var(--nav-h);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,164,90,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,164,90,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(200,164,90,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 60px 40px;
+      max-width: 860px;
+    }
+
+    .hero-logo {
+      width: clamp(160px, 28vw, 280px);
+      height: auto;
+      margin: 0 auto 40px;
+      filter: drop-shadow(0 8px 40px rgba(200,164,90,0.2));
+      opacity: 0;
+      animation: fadeUp 1s 0.2s var(--ease) forwards;
+    }
+    /* Logo SVG fallback */
+    .hero-logo-svg {
+      width: clamp(160px, 28vw, 280px);
+      height: auto;
+      margin: 0 auto 40px;
+      display: none;
+      opacity: 0;
+      animation: fadeUp 1s 0.2s var(--ease) forwards;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(200,164,90,0.65);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s var(--ease) forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: #f0ede6;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 1s 0.55s var(--ease) forwards;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s var(--ease) forwards;
+    }
+
+    .hero-abstract {
+      font-family: var(--font-serif);
+      font-size: clamp(17px, 2.2vw, 21px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.65;
+      color: rgba(240,237,230,0.65);
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0;
+      animation: fadeUp 1s 0.85s var(--ease) forwards;
+    }
+
+    .hero-nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 1s var(--ease) forwards;
+    }
+    .hero-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border: 1px solid rgba(200,164,90,0.3);
+      border-radius: 3px;
+      color: rgba(240,237,230,0.65);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .hero-pill:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      background: var(--gold-glow);
+      text-decoration: none;
+    }
+    .hero-pill.primary {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--hero-bg);
+      font-weight: 500;
+    }
+    .hero-pill.primary:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200,164,90,0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(200,164,90,0.35), transparent);
+    }
+
+    /* ===== MAIN CONTENT WRAPPER ===== */
+    #main { padding-top: 0; }
+
+    /* ===== SECTION BASE ===== */
+    .doc-section {
+      padding: 96px 48px;
+    }
+    .doc-section:nth-child(even) {
+      background: var(--bg2);
+    }
+    .doc-section:nth-child(odd) {
+      background: var(--bg);
+    }
+
+    .section-inner {
+      max-width: var(--content-w);
+      margin: 0 auto;
+    }
+    .section-inner.wide {
+      max-width: var(--wide-w);
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 4vw, 54px);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink3);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin: 28px 0;
+      opacity: 0.6;
+    }
+
+    /* ===== PROSE ===== */
+    .prose p {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink2);
+      margin-bottom: 22px;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .prose h3 {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 36px 0 12px;
+    }
+    .prose h3:first-child { margin-top: 0; }
+
+    .prose strong { font-weight: 600; color: var(--ink); }
+    .prose em { font-style: italic; }
+
+    /* ===== CALLOUT BOXES ===== */
+    .callout {
+      border-left: 3px solid var(--gold);
+      padding: 20px 24px;
+      background: var(--gold-dim);
+      border-radius: 0 4px 4px 0;
+      margin: 32px 0;
+    }
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .callout p {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink2);
+      margin-bottom: 10px;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout strong { color: var(--ink); font-weight: 600; }
+
+    .callout.dark {
+      background: var(--hero-bg);
+      border-color: var(--gold);
+      padding: 28px 32px;
+      border-radius: 4px;
+      border-left-width: 4px;
+    }
+    .callout.dark .callout-label { color: var(--gold); }
+    .callout.dark p {
+      color: rgba(240,237,230,0.82);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    .callout.dark strong { color: #f0ede6; }
+
+    /* ===== CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      background: var(--code-bg);
+      border-radius: 6px;
+      padding: 24px 28px;
+      margin: 28px 0;
+      overflow-x: auto;
+      border: 1px solid rgba(200,164,90,0.12);
+    }
+    .code-label {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,164,90,0.4);
+      margin-bottom: 10px;
+    }
+    .code-line {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--code-text);
+      white-space: pre;
+      display: block;
+    }
+    .code-line .tok-prefix { color: var(--code-accent); font-weight: 500; }
+    .code-line .tok-dom    { color: var(--code-blue); }
+    .code-line .tok-locus  { color: var(--code-green); }
+    .code-line .tok-opt    { color: rgba(232,228,216,0.5); }
+    .code-line .tok-meta   { color: #e87c8c; }
+    .code-line .tok-note   { color: rgba(232,228,216,0.35); font-style: italic; }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px; right: 12px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      background: transparent;
+      border: 1px solid rgba(200,164,90,0.25);
+      border-radius: 3px;
+      color: rgba(200,164,90,0.45);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ===== SPEC TABLE ===== */
+    .spec-table-wrap {
+      overflow-x: auto;
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+    .spec-table th {
+      background: var(--hero-bg);
+      color: var(--gold-light);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 10px;
+      padding: 12px 16px;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(200,164,90,0.15);
+    }
+    .spec-table td {
+      padding: 11px 16px;
+      color: var(--ink2);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+    .spec-table tr:last-child td { border-bottom: none; }
+    .spec-table tr:hover td { background: var(--bg2); }
+    .spec-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .spec-table td:nth-child(2) {
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .req-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .req-yes  { background: rgba(200,164,90,0.15); color: var(--accent); }
+    .req-rec  { background: rgba(124,184,232,0.12); color: #5a8ab0; }
+    .req-opt  { background: var(--bg3); color: var(--ink4); }
+
+    /* ===== EXAMPLE CARDS ===== */
+    .example-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 28px 0;
+    }
+    .example-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px;
+    }
+    .example-card-label {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 6px;
+    }
+    .example-card-title {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .example-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--hero-bg);
+      color: var(--code-text);
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.6;
+    }
+    .example-card p {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink3);
+    }
+
+    /* ===== GETTIER SECTION ===== */
+    #gettier { background: var(--hero-bg) !important; }
+    #gettier .section-label { color: var(--gold); opacity: 0.7; }
+    #gettier .section-title { color: #f0ede6; }
+    #gettier .section-sub   { color: rgba(240,237,230,0.55); }
+    #gettier .divider       { background: var(--gold); }
+    #gettier .prose p       { color: rgba(240,237,230,0.72); }
+    #gettier .prose h3      { color: #f0ede6; }
+    #gettier .prose strong  { color: var(--gold-light); }
+
+    .formulation-box {
+      border: 1px solid rgba(200,164,90,0.3);
+      border-radius: 6px;
+      padding: 28px 32px;
+      margin: 32px 0;
+      background: rgba(200,164,90,0.04);
+    }
+    .formulation-title {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .formulation-body {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(240,237,230,0.8);
+    }
+    .formulation-body p { margin-bottom: 10px; }
+    .formulation-body p:last-child { margin-bottom: 0; }
+    .formulation-body strong { color: var(--gold-light); font-weight: 500; }
+    .formulation-body em { font-style: italic; }
+
+    /* ===== CHANGELOG ===== */
+    .changelog-entry {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .changelog-entry:first-child { border-top: 1px solid var(--border); }
+    .changelog-version {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--accent);
+      padding-top: 2px;
+    }
+    .changelog-date {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink4);
+      margin-top: 4px;
+    }
+    .changelog-title {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .changelog-body {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink3);
+    }
+    .changelog-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .changelog-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      background: var(--bg3);
+      color: var(--ink3);
+    }
+    .changelog-tag.major { background: rgba(200,164,90,0.15); color: var(--accent); }
+
+    /* ===== CONTACT ===== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+    }
+    .contact-card-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 8px;
+    }
+    .contact-card-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .contact-card p {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink3);
+      margin-bottom: 16px;
+    }
+    .contact-link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138,110,46,0.3);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); text-decoration: none; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--hero-bg);
+      padding: 48px;
+      border-top: 1px solid rgba(200,164,90,0.12);
+    }
+    .footer-inner {
+      max-width: var(--wide-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: #f0ede6;
+      margin-bottom: 6px;
+    }
+    .footer-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,164,90,0.45);
+    }
+    .footer-copy {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: rgba(240,237,230,0.3);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer-links a {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: rgba(240,237,230,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-light); text-decoration: none; }
+    .footer-colophon {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-style: italic;
+      color: rgba(240,237,230,0.28);
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    /* ===== REVEAL ANIMATION ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      #top-nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: var(--nav-h); left: 0; right: 0;
+        background: rgba(26,26,24,0.98);
+        padding: 16px 20px 24px;
+        border-bottom: 1px solid rgba(200,164,90,0.15);
+        gap: 4px;
+      }
+      #nav-toggle { display: flex; }
+      .nav-version { display: none; }
+
+      .doc-section { padding: 64px 24px; }
+      .hero-inner { padding: 40px 24px; }
+      .example-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .changelog-entry { grid-template-columns: 1fr; gap: 8px; }
+      footer { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 28px; }
+    }
+
+    @media (max-width: 540px) {
+      .hero-nav-pills { flex-direction: column; align-items: center; }
+      .hero-pill { width: 100%; max-width: 260px; text-align: center; }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: rgba(200,164,90,0.3); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(200,164,90,0.5); }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav id="top-nav" role="navigation" aria-label="Primary">
+    <a class="nav-logo" href="#hero">
+      <img src="/assets/modulign-logo.png" alt="Modulign"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div style="display:none;align-items:center;gap:10px;">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M2 22 Q6 6 10 14 Q14 22 18 14 Q22 6 26 14" stroke="#c8a45a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="nav-logo-text">MOD<span>U</span>LIGN</div>
+        <div class="nav-logo-sub">DAG-OR v3.0</div>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#overview"  data-section="overview">Overview</a></li>
+      <li><a href="#spec"      data-section="spec">Specification</a></li>
+      <li><a href="#examples"  data-section="examples">Examples</a></li>
+      <li><a href="#gettier"   data-section="gettier">Epistemology</a></li>
+      <li><a href="#changelog" data-section="changelog">Changelog</a></li>
+      <li><a href="#contact"   data-section="contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-version">v3.0 · 2026</div>
+
+    <button id="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main">
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <img class="hero-logo" src="/assets/modulign-logo.png" alt="Modulign"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+        <svg class="hero-logo-svg" viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 120 Q40 20 70 80 Q100 140 130 80 Q160 20 190 80 Q220 140 250 100" stroke="#c8a45a" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 120 Q40 20 70 80 Q100 140 130 80 Q160 20 190 80 Q220 140 250 100" stroke="#2a3550" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 8"/>
+        </svg>
+
+        <div class="hero-eyebrow">DAG-OR · Version 3.0 · Open Standard</div>
+        <h1 class="hero-title">Modulign</h1>
+        <div class="hero-tagline">Rebranding Knowledge</div>
+        <p class="hero-abstract">
+          A Dimensional Address Grammar for Observable Reality. Every observable thing that has happened,
+          is happening, or will happen deserves a precise, permanent, and intersubjective address.
+        </p>
+        <nav class="hero-nav-pills" aria-label="Jump to section">
+          <a href="#spec"      class="hero-pill primary">Read the Spec</a>
+          <a href="#examples"  class="hero-pill">See Examples</a>
+          <a href="#gettier"   class="hero-pill">Epistemology</a>
+          <a href="#contact"   class="hero-pill">Contribute</a>
+        </nav>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">Scroll</div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="doc-section">
+      <div class="section-inner">
+        <div class="section-label reveal">Overview</div>
+        <h2 class="section-title reveal">What is Modulign?</h2>
+        <p class="section-sub reveal">An address grammar, not a tagging system.</p>
+        <div class="divider reveal"></div>
+
+        <div class="prose">
+          <p class="reveal">Modulign was conceived in 2026 during the development of a live-stream atlas of Earth — a single static HTML file organizing thousands of live video feeds from across the planet so that a human could navigate them with a dial and a machine could query them in milliseconds. No existing system answered both requirements simultaneously. GPS encodes location but not context. MIME types encode medium but not place. ISO 8601 encodes time but not activity. Every domain had its own classification silo and none of them talked to each other.</p>
+
+          <p class="reveal">Modulign is the answer to all of them simultaneously. It is not a tagging system, a taxonomy, or a database schema. It is an <strong>address grammar</strong> — a coordinate system for any observable phenomenon in the physical universe, at any scale, with explicit causal, epistemic, temporal, jurisdictional, and relational encoding.</p>
+        </div>
+
+        <div class="callout reveal">
+          <div class="callout-label">Core Insight</div>
+          <p>Every observable thing that has happened, is happening, or will happen deserves a precise, permanent, and intersubjective address. Modulign provides that address — from Planck scale (10⁻³⁵m) to cosmological scale (10²⁶m), from ocean trenches to lunar craters to virtual environments.</p>
+        </div>
+
+        <div class="prose">
+          <h3 class="reveal">Design Principles</h3>
+          <p class="reveal"><strong>Modularity.</strong> Each segment of a Modulign code is a self-contained module with an independent semantic meaning. No segment's meaning depends on another's value. Updates to one axis do not invalidate others.</p>
+          <p class="reveal"><strong>Alignment.</strong> Every code is a calibrated position statement derived from the mandatory Decision Protocol. A Modulign code produced without following the Protocol is not a valid Modulign code — it is an approximation. The word "alignment" carries two simultaneous meanings: spatial alignment (locating an observation in the physical universe) and epistemic alignment (ensuring every segment reflects the most accurate currently-available classification).</p>
+          <p class="reveal"><strong>Permanence and Mutability.</strong> The GSI-ID (permanent unique identifier) never changes. The Classification Layer code changes when the underlying reality changes. Historical classification records are never deleted — only superseded by newer records with later timestamps.</p>
+          <p class="reveal"><strong>Expressiveness at Minimum Length.</strong> A minimum valid Modulign code — containing only namespace, domain, subdomain, locus chain, and node — is fully compliant and immediately useful. Every additional suffix adds precision without invalidating the base code.</p>
+          <p class="reveal"><strong>Open Standard.</strong> Modulign is published as an open specification. Any individual, organization, or system may implement a Modulign-compliant classifier without license, fee, or permission. The name Modulign™ and the MGN· prefix are trademarks of Vincent Gonzalez. Implementations must not misrepresent compliance with this specification.</p>
+
+          <h3 class="reveal">The Three Registries</h3>
+          <p class="reveal">Every observable entity in the Modulign system exists across three coordinated registries sharing one namespace and one identifier format. Together they constitute the <strong>Reality Graph</strong> — the structured, queryable record of the observable world.</p>
+        </div>
+
+        <div class="spec-table-wrap reveal">
+          <table class="spec-table">
+            <thead>
+              <tr><th>Registry</th><th>Identifier</th><th>Contents</th><th>Mutability</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Observation Registry</td>
+                <td>GSI-ID (UUID-v4)</td>
+                <td>Canonical MGN code, classification history, reasoning records, confidence scores, meta flags</td>
+                <td>Dynamic classification layer; permanent identity layer</td>
+              </tr>
+              <tr>
+                <td>Entity Registry</td>
+                <td>EID (typed identifier)</td>
+                <td>Persistent entities with identity across observations: people, institutions, species, structures</td>
+                <td>Entity core permanent; attributes update as entity changes</td>
+              </tr>
+              <tr>
+                <td>Relation Registry</td>
+                <td>RID (relation record)</td>
+                <td>Typed causal and temporal links between two GSI-IDs or EIDs, with own timestamp, observer, and confidence</td>
+                <td>Append-only for ^EVID; mutable for provisional</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPECIFICATION -->
+    <section id="spec" class="doc-section">
+      <div class="section-inner wide">
+        <div class="section-label reveal">Full Specification</div>
+        <h2 class="section-title reveal">DAG-OR v3.0</h2>
+        <p class="section-sub reveal">The canonical code format and segment reference.</p>
+        <div class="divider reveal"></div>
+
+        <div class="prose">
+          <h3 class="reveal">Full Syntax</h3>
+        </div>
+
+        <div class="code-block reveal">
+          <div class="code-label">Canonical MGN Address Format · v3.0</div>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <span class="code-line"><span class="tok-prefix">MGN·</span><span class="tok-dom">[DOM·SUB]</span>·<span class="tok-locus">[REALM/G1/G2/G3/G4]</span>·<span class="tok-dom">[NOD]</span><span class="tok-opt">·|SCL|·:[MED]·%[OBS]·[CAM][ACT]@[TIME]·§[JUR]·^[META]·~[DYN]·+[BG]</span></span>
+          <span class="code-line tok-note">         ↑ required ↑                                      ↑ optional ↑</span>
+        </div>
+
+        <div class="prose">
+          <h3 class="reveal">Minimum Valid Code</h3>
+        </div>
+
+        <div class="code-block reveal">
+          <div class="code-label">Minimum — 4 required segments only</div>
+          <span class="code-line"><span class="tok-prefix">MGN·</span><span class="tok-dom">URB·STR</span>·<span class="tok-locus">SR/NA/US/NY/NYC</span>·<span class="tok-dom">00A1</span></span>
+          <span class="code-line tok-note">  Urban · Street · Surface/North America/USA/New York/NYC · Node 00A1</span>
+        </div>
+
+        <div class="prose">
+          <h3 class="reveal">Fully Annotated Code</h3>
+        </div>
+
+        <div class="code-block reveal">
+          <div class="code-label">Complete — all optional segments populated</div>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <span class="code-line"><span class="tok-prefix">MGN·</span><span class="tok-dom">TRN·RAL</span>·<span class="tok-locus">SR/NA/US/FL/FMY</span>·<span class="tok-dom">0042</span>·<span class="tok-opt">|HMN|·:VID·%HUM·URB:T×3·.A-T@R·§US-FL·^VFYD·~CYC</span></span>
+          <span class="code-line tok-note">  Transport·Rail · Surface/N.America/USA/Florida/Fort Myers · Node 0042</span>
+          <span class="code-line tok-note">  Human scale · Video · Human observer, Urban-trained, 3-consensus · Fixed</span>
+          <span class="code-line tok-note">  Transit · Rush hour · Florida law · Verified · Cyclical pattern</span>
+        </div>
+
+        <div class="prose"><h3 class="reveal">Segment Reference</h3></div>
+
+        <div class="spec-table-wrap reveal">
+          <table class="spec-table">
+            <thead>
+              <tr><th>Segment</th><th>Token</th><th>Format</th><th>Req.</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>MGN·</td><td>Namespace</td><td>Fixed prefix</td><td><span class="req-badge req-yes">Yes</span></td><td>Always first. Never omitted. Namespace identifier for all Modulign codes.</td></tr>
+              <tr><td>[DOM]</td><td>Domain</td><td>3 uppercase letters</td><td><span class="req-badge req-yes">Yes</span></td><td>Primary functional context. 9 domains: URB, NAT, TRN, COM, RES, EVT, SEC, INF, UNK.</td></tr>
+              <tr><td>[SUB]</td><td>Subdomain</td><td>3 uppercase letters</td><td><span class="req-badge req-yes">Yes</span></td><td>Refinement within domain. Namespaced to parent domain.</td></tr>
+              <tr><td>[REALM/]</td><td>Realm</td><td>2 letters + slash</td><td><span class="req-badge req-yes">Yes*</span></td><td>Spatial realm. SR/ (surface) implied if omitted.</td></tr>
+              <tr><td>[G1/G2/G3/G4]</td><td>Locus Chain</td><td>Slash-separated codes</td><td><span class="req-badge req-yes">Yes</span></td><td>Global region → Country → State/Province → City. Cascading geographic levels.</td></tr>
+              <tr><td>[NOD]</td><td>Node</td><td>4 Base-36 chars</td><td><span class="req-badge req-yes">Yes</span></td><td>Unique instrument/site within locus scope. Base-36 = 1,679,616 nodes per locus.</td></tr>
+              <tr><td>|SCL|</td><td>Scale</td><td>Pipe + 3 letters + pipe</td><td><span class="req-badge req-rec">Rec.</span></td><td>Scale tier from |QNT| (quantum) to |CSM| (cosmological). |HMN| implied if omitted.</td></tr>
+              <tr><td>:[MED]</td><td>Medium</td><td>Colon + 3 letters</td><td><span class="req-badge req-rec">Rec.</span></td><td>Type of observation: :VID, :AUD, :SAT, :SEN, :TXT, :IMG, :BIO, :SYN, and more.</td></tr>
+              <tr><td>%[OBS]</td><td>Observer</td><td>Percent + type + competence</td><td><span class="req-badge req-rec">Rec.</span></td><td>Who classified, competence level, consensus count. Required for ^EVID eligibility.</td></tr>
+              <tr><td>.[CAM]</td><td>Camera/Instrument</td><td>Dot + 1 letter</td><td><span class="req-badge req-opt">Opt.</span></td><td>Physical capture device characteristics (.A fixed, .B mobile, .D drone, etc.).</td></tr>
+              <tr><td>-[ACT]</td><td>Activity</td><td>Dash + 1 letter</td><td><span class="req-badge req-opt">Opt.</span></td><td>Dominant observable activity state.</td></tr>
+              <tr><td>@[TIME]</td><td>Time</td><td>@ + letter or ISO8601</td><td><span class="req-badge req-opt">Opt.</span></td><td>Temporal context: @R (rush), @N (night), @L (live), or full ISO8601 timestamp.</td></tr>
+              <tr><td>§[JUR]</td><td>Jurisdiction</td><td>§ + code</td><td><span class="req-badge req-opt">Opt.</span></td><td>Governing legal framework. Required for ^EVID classification.</td></tr>
+              <tr><td>^[META]</td><td>Meta Flags</td><td>Caret + word</td><td><span class="req-badge req-opt">Opt.</span></td><td>Operational status. Repeatable. Key flags: ^EVID, ^VFYD, ^PROV, ^DEAD.</td></tr>
+              <tr><td>~[DYN]</td><td>Continuum</td><td>Tilde + 3 letters</td><td><span class="req-badge req-opt">Opt.</span></td><td>Temporal behavior pattern: ~CYC (cyclical), ~TRN (transient), ~STC (static).</td></tr>
+              <tr><td>+[DOM·SUB]</td><td>Background Domain</td><td>Plus + domain·subdomain</td><td><span class="req-badge req-opt">Opt.</span></td><td>Secondary domain when genuine duality exists. Use instead of UNK·MIX.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose"><h3 class="reveal">The Nine Domains</h3></div>
+        <div class="spec-table-wrap reveal">
+          <table class="spec-table">
+            <thead>
+              <tr><th>Code</th><th>Full Name</th><th>v1.0 Num.</th><th>Primary Scope</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>URB</td><td>Urban / Built Environment</td><td>100</td><td>Streets, parks, plazas, building exteriors and public interiors, skylines, underground urban infrastructure.</td></tr>
+              <tr><td>NAT</td><td>Natural World</td><td>200</td><td>Wilderness, coastlines, weather systems, geological formations, open ocean, forests, mountains, polar regions, atmosphere.</td></tr>
+              <tr><td>TRN</td><td>Transportation Systems</td><td>300</td><td>Rail, road, air, maritime, pipeline, and micro-mobility networks.</td></tr>
+              <tr><td>COM</td><td>Commerce &amp; Industry</td><td>400</td><td>Markets, factories, warehouses, financial districts, agricultural operations, mining sites, energy production.</td></tr>
+              <tr><td>RES</td><td>Residential / Private Life</td><td>500</td><td>Residential neighborhoods, domestic exteriors, private community spaces. Strict consent requirements apply.</td></tr>
+              <tr><td>EVT</td><td>Events &amp; Entertainment</td><td>600</td><td>Concerts, sports, festivals, conferences, ceremonies. Applies when a bounded event overrides the space at majority scale.</td></tr>
+              <tr><td>SEC</td><td>Security &amp; Surveillance</td><td>700</td><td>Dedicated security cameras, law enforcement monitoring, correctional feeds, border monitoring, traffic enforcement.</td></tr>
+              <tr><td>INF</td><td>Infrastructure / Utilities</td><td>800</td><td>Power grids, water treatment, communications towers, bridges, dams, tunnels, utility monitoring.</td></tr>
+              <tr><td>UNK</td><td>Unknown / Mixed / Experimental</td><td>900</td><td>Unclassifiable, mixed-domain, or novel contexts. Use when classification information is genuinely insufficient.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose"><h3 class="reveal">Scale Axis</h3>
+          <p class="reveal">The Scale axis |SCL| is an independent dimension of observable reality. A blood sample at cellular scale and a street camera at human scale can share identical domain codes — without the Scale axis, they are indistinguishable to a machine. The scale is not a subdomain. It is a separate axis.</p>
+        </div>
+        <div class="spec-table-wrap reveal">
+          <table class="spec-table">
+            <thead><tr><th>Code</th><th>Scale Tier</th><th>Range</th><th>Example Observations</th></tr></thead>
+            <tbody>
+              <tr><td>|QNT|</td><td>Quantum / subatomic</td><td>Below ~10⁻¹⁰m</td><td>Electron tunneling detectors, particle collision data, quantum sensor readings</td></tr>
+              <tr><td>|MLC|</td><td>Molecular / cellular</td><td>10⁻¹⁰ to 10⁻⁵m</td><td>Electron microscopy, cellular imaging, molecular sensor arrays, DNA sequencing feeds</td></tr>
+              <tr><td>|BIO|</td><td>Biological organism</td><td>10⁻³ to 10¹m</td><td>Medical imaging, wildlife cameras, ecological field observations, clinical monitoring</td></tr>
+              <tr><td>|HMN|</td><td>Human / built environment</td><td>10¹ to 10³m</td><td>Standard cameras, CCTV, webcams, sensors. <strong>Default scale. Implied if |SCL| omitted.</strong></td></tr>
+              <tr><td>|GEO|</td><td>Geological / planetary</td><td>10³ to 10⁷m</td><td>Satellite imagery, seismic arrays, atmospheric monitoring networks, geological survey</td></tr>
+              <tr><td>|STL|</td><td>Stellar / solar system</td><td>10⁸ to 10¹³m</td><td>Telescope feeds, orbital sensor arrays, solar wind monitoring, planetary probes</td></tr>
+              <tr><td>|CSM|</td><td>Cosmological</td><td>10¹³m and beyond</td><td>Gravitational wave detectors, CMB arrays, dark matter lensing surveys, deep field imaging</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose"><h3 class="reveal">Realm Prefixes — Beyond Earth Surface</h3></div>
+        <div class="spec-table-wrap reveal">
+          <table class="spec-table">
+            <thead><tr><th>Code</th><th>Realm</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>SR/</td><td>Surface (default)</td><td>Earth land surface and near-surface up to ~100m altitude. Implied if omitted.</td><td>Standard cameras, webcams, CCTV, wildlife cams</td></tr>
+              <tr><td>AT/</td><td>Atmosphere</td><td>Earth atmosphere above surface: weather balloons, drones above 100m, atmospheric monitoring.</td><td>AT/NA/US/FL/HRC — Hurricane Center sensor</td></tr>
+              <tr><td>SS/</td><td>Subsurface</td><td>Underground: mines, tunnels, caves, underground infrastructure.</td><td>SS/WE/FR/IDF/PAR — Paris Metro tunnel</td></tr>
+              <tr><td>AQ/</td><td>Aquatic</td><td>Open water at or near surface: ocean, lake, river, shallow coastal.</td><td>AQ/EA/PA/NPA — North Pacific buoy</td></tr>
+              <tr><td>DQ/</td><td>Deep Aquatic</td><td>Submarine and deep-sea: ROV feeds, deep-sea sensor arrays.</td><td>DQ/OC/PA/MRN/CHG — Mariana Trench</td></tr>
+              <tr><td>OR/</td><td>Orbital</td><td>Earth orbit: LEO, MEO, GEO, HEO, Lagrange points.</td><td>OR/L2/JWT — James Webb Space Telescope</td></tr>
+              <tr><td>LN/</td><td>Lunar</td><td>Moon surface and lunar orbit.</td><td>LN/NEA/OCN/SHK — Oceanus Procellarum</td></tr>
+              <tr><td>IP/</td><td>Interplanetary</td><td>Beyond lunar orbit: Mars, Venus, asteroids, deep space probes.</td><td>IP/MRS/OLY — Olympus Mons, Mars</td></tr>
+              <tr><td>VR/</td><td>Virtual / Synthetic</td><td>Fully simulated or generated environments. Required with :SYN medium.</td><td>VR/SIM/GEN/AI1 — AI-generated scene</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout reveal">
+          <div class="callout-label">Synthetic Content Detection</div>
+          <p>The combination <strong>VR/ + :SYN</strong> is the definitive Modulign signature for synthetic or AI-generated content. Any code lacking this combination and presenting as a real-world observation is making a falsifiable claim about its origin.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLES -->
+    <section id="examples" class="doc-section">
+      <div class="section-inner wide">
+        <div class="section-label reveal">Use Cases</div>
+        <h2 class="section-title reveal">Examples Across Disciplines</h2>
+        <p class="section-sub reveal">The same grammar. Every domain.</p>
+        <div class="divider reveal"></div>
+
+        <div class="example-grid">
+          <div class="example-card reveal">
+            <div class="example-card-label">Live Media · Broadcasting</div>
+            <div class="example-card-title">New York Street Webcam</div>
+            <div class="example-code">MGN·URB·STR·SR/NA/US/NY/NYC·00A1·|HMN|·:VID·.A@L·^VFYD·~CYC</div>
+            <p>Urban street feed, surface realm, New York City, node 00A1, human scale, live video, fixed camera, verified, cyclical pattern. Navigable by domain, location, scale, and activity simultaneously.</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">Transportation · Rail</div>
+            <div class="example-card-title">Fort Myers Rail — Rush Hour</div>
+            <div class="example-code">MGN·TRN·RAL·SR/NA/US/FL/FMY·0042·|HMN|·:VID·%HUM·URB:T×3·.A-T@R·§US-FL·^VFYD·~CYC</div>
+            <p>Transport/Rail, Florida/Fort Myers, human-scale video, human observer with Urban-Transit training and 3-way consensus, fixed camera, transit activity, rush hour, Florida jurisdiction, verified, cyclical.</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">Legal Evidence · Crime Scene</div>
+            <div class="example-card-title">Evidence-Grade Classification</div>
+            <div class="example-code">MGN·SEC·POL·SR/NA/US/CA/LAX·00F2·|HMN|·:VID·%FOR·SEC:L×1·.B@2026-03-15T14:32Z·§US-CA·^EVID·^VFYD</div>
+            <p>Security/Police, Los Angeles, forensic observer with Security-Legal training, mobile camera, timestamped, California jurisdiction, evidence-grade with append-only ledger, verified. Admissible under FRE 901(b)(9).</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">Scientific · Deep Ocean</div>
+            <div class="example-card-title">Mariana Trench ROV Feed</div>
+            <div class="example-code">MGN·NAT·OCN·DQ/OC/PA/MRN/CHG·0001·|MLC|·:VID·%SCI·MAR:P×2·.D@2026-01-10T09:00Z</div>
+            <p>Natural/Ocean, deep aquatic realm, Mariana Trench, molecular/cellular scale (examining microorganisms), ROV video, scientific observer with Marine-Pelagic training and 2-expert consensus, drone instrument.</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">Astronomy · Orbital</div>
+            <div class="example-card-title">James Webb Space Telescope</div>
+            <div class="example-code">MGN·NAT·OBS·OR/L2/JWT·0001·|CSM|·:IMG·%SCI·AST:P×12·^VFYD</div>
+            <p>Natural/Observatory, orbital realm at Lagrange Point 2, JWST node, cosmological scale, still image (deep field), scientific observer with Astronomy-Professional training and 12-expert consensus, verified.</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">AI Provenance · Synthetic Detection</div>
+            <div class="example-card-title">AI-Generated Scene (Flagged)</div>
+            <div class="example-code">MGN·UNK·SYN·VR/SIM/GEN/AI1·XXXX·|HMN|·:SYN·%ALG·GEN:A×0·^PROV</div>
+            <p>Unknown/Synthetic, virtual realm, AI-generated, algorithmic observer with no human consensus, provisional flag. The VR/ + :SYN combination is the definitive Modulign signature for synthetic content — unforgeable by design.</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">Environmental · Atmospheric</div>
+            <div class="example-card-title">Hurricane Center Sensor</div>
+            <div class="example-code">MGN·NAT·ATM·AT/NA/US/FL/HRC·0003·|GEO|·:SEN·%SCI·MET:P×5·~TRN</div>
+            <p>Natural/Atmosphere, atmospheric realm, NOAA Hurricane Research Center in Florida, geological/planetary scale, sensor data (not video), scientific/Meteorological observer with 5-expert consensus, transient pattern (active storm event).</p>
+          </div>
+
+          <div class="example-card reveal">
+            <div class="example-card-label">Medical Evidence · Biological Scale</div>
+            <div class="example-card-title">Clinical Imaging Record</div>
+            <div class="example-code">MGN·RES·PRV·SR/NA/US/FL/MIA·00B3·|BIO|·:BIO·%MED·CLN:L×2·§US-FL·^EVID·^VFYD</div>
+            <p>Residential/Private, biological scale, Miami clinical facility, biological/medical medium, licensed medical observer with Clinical-Lab training and 2-physician consensus, Florida jurisdiction, evidence-grade. HIPAA-compatible via EID linkage in Entity Registry.</p>
+          </div>
+        </div>
+
+        <div class="prose">
+          <h3 class="reveal">Applications Across Disciplines</h3>
+          <p class="reveal">Modulign is infrastructure. Its value compounds as it is adopted across more domains. Live media and broadcasting, legal evidence and forensics, environmental and scientific monitoring, urban planning and smart cities, AI training data provenance, journalism and verification, insurance and risk assessment, and academic citation — all share the same grammar, the same registry, and the same permanent identifiers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GETTIER / EPISTEMOLOGY -->
+    <section id="gettier" class="doc-section">
+      <div class="section-inner">
+        <div class="section-label reveal">Epistemology</div>
+        <h2 class="section-title reveal">Structural Dissolution of the Gettier Problem</h2>
+        <p class="section-sub reveal">Through Address-Theoretic Ontology — an accidental discovery.</p>
+        <div class="divider reveal"></div>
+
+        <div class="prose">
+          <p class="reveal">Edmund Gettier's 1963 paper in <em>Analysis</em> demonstrated that justified true belief (JTB) is insufficient for knowledge: justification and truth can coincide accidentally, yielding a justified true belief that, intuitively, is not knowledge. Sixty years of responses have produced no consensus solution.</p>
+
+          <p class="reveal">Zagzebski (1994) establishes that no analysis of the form K = df true belief + X can escape Gettier cases given fallibilism, because any external bridge between justification and truth can always be satisfied accidentally. The impasse has a structural source: all parties share the assumption that justification is a property of the epistemic subject's mental or inferential states, specifiable independently of the truth-making state of affairs.</p>
+
+          <p class="reveal">The Modulign Decision Protocol dissolves this problem architecturally — not by adding a fourth condition, but by changing the architecture of the epistemic act itself. This result was an <strong>accidental discovery</strong> in the course of formalising the technical specification. It was not constructed to address the Gettier problem.</p>
+
+          <h3 class="reveal">The Structural Diagnosis</h3>
+          <p class="reveal">Let T(P) denote the state of affairs that makes P true. Let J(S,P) denote the justificatory basis on which S believes P. In a Gettier case, J(S,P) and T(P) are both present but causally and epistemically unconnected. The structural requirement for knowledge is not merely that J(S,P) and T(P) co-occur, but that they are non-accidentally connected.</p>
+          <p class="reveal">Every post-Gettier proposal attempts to specify this connection externally — by adding a condition C that constrains the relationship between J and T. But Zagzebski's recipe shows that any external C, as long as it fails to constitute T's obtaining, can always be satisfied while the connection between J and T remains accidental. The alternative is to change the architecture of the epistemic act: to make the non-accidental connection between justification and truth <strong>constitutive</strong> of the classification procedure.</p>
+        </div>
+
+        <div class="formulation-box reveal">
+          <div class="formulation-title">Address-Theoretic Non-Accidentality Principle (ATNA)</div>
+          <div class="formulation-body">
+            <p>A Modulign classification C of observation O is <strong>non-accidentally true</strong> if and only if:</p>
+            <p><strong>(a)</strong> C was produced by the full Decision Protocol applied to the observable features of O;</p>
+            <p><strong>(b)</strong> each step's justificatory basis traces to the observable features causally produced by T(C), the state of affairs making C true; and</p>
+            <p><strong>(c)</strong> the Protocol contains no inference step epistemically isolated from O's observable features.</p>
+            <p><em>Under ATNA, there is no residual independence of J(C,O) from T(C). There is no gap into which Gettier luck can insert itself.</em></p>
+          </div>
+        </div>
+
+        <div class="formulation-box reveal">
+          <div class="formulation-title">Address-Theoretic Knowledge (ATK)</div>
+          <div class="formulation-body">
+            <p><strong>S knows that P if and only if:</strong></p>
+            <p><strong>(i)</strong> P is true;</p>
+            <p><strong>(ii)</strong> S believes that P; and</p>
+            <p><strong>(iii)</strong> S's belief that P is the output of a procedure that is:</p>
+            <p><strong>(a) constitutively world-engaged</strong> — justificatory basis of each step traces to observable features causally produced by T(P);</p>
+            <p><strong>(b) transparent</strong> — steps explicit and auditable;</p>
+            <p><strong>(c) intersubjective</strong> — reproducible by any competent observer with access to the same observable features;</p>
+            <p><strong>(d) exhaustive</strong> — covering all segments of the reality-space relevant to P; and</p>
+            <p><strong>(e) scale-sensitive</strong> — operating at the scale at which T(P) is constituted.</p>
+          </div>
+        </div>
+
+        <div class="prose">
+          <h3 class="reveal">Situating ATK Against the Literature</h3>
+          <p class="reveal">ATK handles Gettier's original cases through ATNA condition (c): Smith's inferential steps are epistemically isolated from the truth-making state of affairs. It handles the fake barns case through conditions (iii)(d) and (iii)(e): Henry's procedure is not exhaustive of the epistemically relevant reality-space and is not scale-sensitive to the regional context that constitutes barn-knowledge in a façade-dense environment.</p>
+          <p class="reveal">ATK resists the Zagzebski recipe because the recipe's entry point — a justified false belief — is not a possible output of a Protocol-compliant classification. Unlike knowledge-first epistemology, ATK completes rather than forecloses the analysis project. It identifies what knowledge is constituted by: not justified true belief, but true belief produced by a constitutively world-engaged, transparent, intersubjective, exhaustive, and scale-sensitive observation procedure.</p>
+          <p class="reveal">This is <strong>structural dissolution</strong>: stronger than any fourth-condition solution, and different from knowledge-first dissolution in that it preserves and completes the analysis project. The result extends to the full range of observational knowledge from human-scale perception through cosmological observation.</p>
+        </div>
+
+        <div class="callout dark reveal">
+          <div class="callout-label">Conclusion</div>
+          <p>Gettier's paper is correct. JTB is insufficient for knowledge. The gap is real. The sixty years of subsequent literature has not closed it because all proposed closures have been external bridges across a gap whose existence is presupposed by the architecture. The Modulign architecture closes the gap from inside — not because it catches Gettier cases but because the structural precondition for their arising is absent from the architecture.</p>
+          <p><strong>Every observable thing that has happened, is happening, or will happen deserves a precise, permanent, and intersubjective address. The argument of this paper is that such an address is not merely useful. It is what knowledge of the observable world, properly understood, requires.</strong></p>
+        </div>
+
+        <div class="prose">
+          <h3 class="reveal">Full Paper</h3>
+          <p class="reveal">"Structural Dissolution of the Gettier Problem through Address-Theoretic Ontology" — Vincent Gonzalez, 2026. Independent scholarship. Available on request. <a href="mailto:VinceGonzalez@me.com">VinceGonzalez@me.com</a></p>
+          <h3 class="reveal">Legal Epistemology Treatise</h3>
+          <p class="reveal">A companion treatise applies the Modulign Standard as a formal evidentiary and legal codex framework, demonstrating that Modulign-classified observations satisfy the foundational admissibility criteria of existing legal systems — authentication, chain of custody, best evidence, and expert testimony foundation — through structural properties of the classification architecture. "Modulign as Evidence: A Legal Epistemology Treatise" — v1.0.0, 2026. Available on request.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHANGELOG -->
+    <section id="changelog" class="doc-section">
+      <div class="section-inner">
+        <div class="section-label reveal">Version History</div>
+        <h2 class="section-title reveal">Changelog</h2>
+        <p class="section-sub reveal">MAJOR.MINOR versioning. All prior codes remain valid.</p>
+        <div class="divider reveal"></div>
+
+        <div class="changelog-entry reveal">
+          <div>
+            <div class="changelog-version">v3.0</div>
+            <div class="changelog-date">2026</div>
+          </div>
+          <div>
+            <div class="changelog-title">Full architectural expansion — the current canonical specification</div>
+            <div class="changelog-body">Scale axis (|QNT| through |CSM|, from Planck-scale to cosmological horizon). Observer axis with domain competence encoding. Jurisdiction axis (§JUR). Causal Relation Registry and Entity Registry formalized. Background Domain annotation (+DOM·SUB) for genuinely dual-subject observations. Majority Threshold for Dominance Resolution (eyeball verifiable — no measurement tools required). Three-layer Trust Architecture. DNS-style federated backend model. Philosophical foundation: Address-Theoretic Non-Accidentality Principle (ATNA) and Address-Theoretic Knowledge (ATK) formulation, providing structural dissolution of the Gettier problem. Legal Epistemology Treatise published as companion document. All v1.0 numeric codes and v2.0 mnemonic codes remain valid via canonical lookup table.</div>
+            <div class="changelog-tags">
+              <span class="changelog-tag major">Major</span>
+              <span class="changelog-tag">Scale Axis</span>
+              <span class="changelog-tag">Observer Axis</span>
+              <span class="changelog-tag">Jurisdiction</span>
+              <span class="changelog-tag">Relation Registry</span>
+              <span class="changelog-tag">Entity Registry</span>
+              <span class="changelog-tag">ATK / ATNA</span>
+              <span class="changelog-tag">Legal Treatise</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="changelog-entry reveal">
+          <div>
+            <div class="changelog-version">v2.0</div>
+            <div class="changelog-date">2026</div>
+          </div>
+          <div>
+            <div class="changelog-title">Mnemonic segment system — human-readable codes replace numeric prefixes</div>
+            <div class="changelog-body">Domain codes migrated from three-digit numeric (100–900) to three-letter mnemonic (URB, NAT, TRN, COM, RES, EVT, SEC, INF, UNK). Subdomain registry expanded. Locus chain formalized with Realm prefix system. Node system migrated to Base-36 encoding (1,679,616 nodes per locus scope). Medium axis introduced. All v1.0 numeric codes remain valid via lookup.</div>
+            <div class="changelog-tags">
+              <span class="changelog-tag major">Major</span>
+              <span class="changelog-tag">Mnemonic Codes</span>
+              <span class="changelog-tag">Base-36 Nodes</span>
+              <span class="changelog-tag">Medium Axis</span>
+              <span class="changelog-tag">Realm Prefix</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="changelog-entry reveal">
+          <div>
+            <div class="changelog-version">v1.0</div>
+            <div class="changelog-date">2026</div>
+          </div>
+          <div>
+            <div class="changelog-title">Initial specification — numeric domain system</div>
+            <div class="changelog-body">First formalization of the address grammar during development of a live-stream atlas of Earth. Numeric domain codes (100 Urban through 900 Unknown). Four-level locus chain (region → country → state → city). Four-digit decimal node system. MGN· namespace prefix established. Core design principles documented: modularity, alignment, permanence/mutability, expressiveness at minimum length.</div>
+            <div class="changelog-tags">
+              <span class="changelog-tag major">Initial Release</span>
+              <span class="changelog-tag">Numeric Domains</span>
+              <span class="changelog-tag">Locus Chain</span>
+              <span class="changelog-tag">MGN· Namespace</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose" style="margin-top:40px;">
+          <h3 class="reveal">Governance</h3>
+          <p class="reveal">The canonical Modulign registry is maintained by Vincent Gonzalez and published as a public open-access document. Community contributions are accepted via the canonical repository. Minor additions follow a quarterly release cycle. Breaking changes require a public comment period of no less than 90 days before adoption. MAJOR increments indicate breaking changes to segment syntax, separator grammar, or core registry structure. MINOR increments indicate non-breaking expansions: new registry entries, new suffix tokens, editorial clarifications.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="doc-section">
+      <div class="section-inner">
+        <div class="section-label reveal">Contact &amp; Contribute</div>
+        <h2 class="section-title reveal">Open Standard.</h2>
+        <p class="section-sub reveal">Free to implement. No license. No fee. No permission required.</p>
+        <div class="divider reveal"></div>
+
+        <div class="prose">
+          <p class="reveal">Modulign is published as an open specification. Any individual, organization, or system may implement a Modulign-compliant classifier without license, fee, or permission. The name Modulign™ and the MGN· prefix are trademarks of Vincent Gonzalez. Implementations must not misrepresent compliance with this specification. Fork identification via spec version hash declaration is required for all derivative works.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card reveal">
+            <div class="contact-card-label">Author</div>
+            <div class="contact-card-title">Vincent Gonzalez</div>
+            <p>Independent scholar. Cape Coral, FL. Correspondence welcome on the specification, the epistemology paper, the legal treatise, and implementation questions.</p>
+            <a href="mailto:VinceGonzalez@me.com" class="contact-link">VinceGonzalez@me.com</a>
+          </div>
+          <div class="contact-card reveal">
+            <div class="contact-card-label">Contribute</div>
+            <div class="contact-card-title">Registry Submissions</div>
+            <p>New subdomain proposals, city code additions, and minor registry expansions are reviewed against this specification before inclusion. Submit with rationale and example classifications.</p>
+            <a href="mailto:VinceGonzalez@me.com" class="contact-link">Submit a proposal →</a>
+          </div>
+          <div class="contact-card reveal">
+            <div class="contact-card-label">Papers</div>
+            <div class="contact-card-title">Full Documents</div>
+            <p>The full Gettier analysis paper and Legal Epistemology Treatise are available on request. The DAG-OR v3.0 specification document is the canonical reference.</p>
+            <a href="mailto:VinceGonzalez@me.com" class="contact-link">Request full papers →</a>
+          </div>
+          <div class="contact-card reveal">
+            <div class="contact-card-label">Studio</div>
+            <div class="contact-card-title">Zengine™</div>
+            <p>Modulign is a Zengine research project. Visit the studio for apps, hardware, and other work from the same operators.</p>
+            <a href="https://zengine.org" target="_blank" rel="noopener noreferrer" class="contact-link">zengine.org →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">Modulign™</div>
+          <div class="footer-tag">DAG-OR · v3.0 · Open Standard</div>
+          <div class="footer-copy">
+            © 2026 Vincent Gonzalez · All Rights Reserved<br/>
+            Modulign™ and MGN™ are trademarks of Vincent Gonzalez.<br/>
+            Free to implement without license or fee.
+          </div>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="#overview">Overview</a>
+          <a href="#spec">Specification</a>
+          <a href="#examples">Examples</a>
+          <a href="#gettier">Epistemology</a>
+          <a href="#changelog">Changelog</a>
+          <a href="#contact">Contact</a>
+          <a href="https://zengine.org" target="_blank" rel="noopener noreferrer">Zengine™</a>
+        </nav>
+        <div class="footer-colophon">
+          "The world is live.<br/>Now it has an address.<br/>And now we know what it means<br/>to know that address."
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // BOOT ORDER:
+    // 1. initNav — mobile toggle + scroll spy
+    // 2. initReveal — IntersectionObserver for .reveal
+    // 3. initCopy — copy buttons on code blocks
+
+    /* ===== CONFIG BLOCK ===== */
+    var NAV_OFFSET = 80; // px from top to trigger section active
+
+    /* ===== NAV MOBILE TOGGLE ===== */
+    // READS: #nav-toggle, #nav-links  WRITES: classList
+    function initNav() {
+      try {
+        var toggle = document.getElementById('nav-toggle');
+        var links  = document.getElementById('nav-links');
+        if (!toggle || !links) { console.error('initNav(): elements missing'); return; }
+
+        toggle.addEventListener('click', function() {
+          var open = links.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+
+        // Close on link click
+        var anchors = links.querySelectorAll('a');
+        for (var i = 0; i < anchors.length; i++) {
+          anchors[i].addEventListener('click', function() {
+            links.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+          });
+        }
+
+        // Scroll spy
+        var sections = document.querySelectorAll('section[id]');
+        var navAnchors = document.querySelectorAll('#nav-links a[data-section]');
+
+        function onScroll() {
+          var scrollY = window.pageYOffset;
+          var current = '';
+          for (var s = 0; s < sections.length; s++) {
+            if (sections[s].offsetTop - NAV_OFFSET <= scrollY) {
+              current = sections[s].id;
+            }
+          }
+          for (var n = 0; n < navAnchors.length; n++) {
+            if (navAnchors[n].getAttribute('data-section') === current) {
+              navAnchors[n].classList.add('active');
+            } else {
+              navAnchors[n].classList.remove('active');
+            }
+          }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      } catch(e) {
+        console.error('initNav(): failed —', e);
+      }
+    }
+
+    /* ===== REVEAL ON SCROLL ===== */
+    // READS: .reveal elements  WRITES: .visible class
+    function initReveal() {
+      try {
+        var els = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) {
+          for (var i = 0; i < els.length; i++) { els[i].classList.add('visible'); }
+          return;
+        }
+        var obs = new IntersectionObserver(function(entries) {
+          for (var j = 0; j < entries.length; j++) {
+            if (entries[j].isIntersecting) {
+              entries[j].target.classList.add('visible');
+              obs.unobserve(entries[j].target);
+            }
+          }
+        }, { threshold: 0.08 });
+        for (var k = 0; k < els.length; k++) { obs.observe(els[k]); }
+      } catch(e) {
+        console.error('initReveal(): failed —', e);
+      }
+    }
+
+    /* ===== COPY CODE BUTTONS ===== */
+    // READS: btn.parentElement code-line elements  WRITES: clipboard, btn text
+    function copyCode(btn) {
+      try {
+        var block = btn.parentElement;
+        var lines = block.querySelectorAll('.code-line');
+        var text  = '';
+        for (var i = 0; i < lines.length; i++) {
+          text += lines[i].textContent + '\n';
+        }
+        text = text.trim();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function() {
+            btn.textContent = 'Copied!';
+            setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+          });
+        } else {
+          // Fallback
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity  = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          btn.textContent = 'Copied!';
+          setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+        }
+      } catch(e) {
+        console.error('copyCode(): failed —', e);
+      }
+    }
+
+    /* ===== BOOT ===== */
+    document.addEventListener('DOMContentLoaded', function() {
+      initNav();
+      initReveal();
+    });
+  </script>
+
+</body>
+</html>
